@@ -8,6 +8,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>数秘酒場｜あんた、何のアテなん。</title>
+<!-- build: 20261008-02 -->
 <style>
 :root{--red:#8b201b;--deep:#34120d;--gold:#d5a43a;--cream:#fff6df;--ink:#3c281f;--sub:#786456}
 *{box-sizing:border-box}
@@ -107,7 +108,7 @@ const MENU={
 const $=s=>document.querySelector(s);
 function show(id){document.querySelectorAll(".screen").forEach(x=>x.classList.remove("active"));$(id).classList.add("active");window.scrollTo(0,0)}
 function lifePath(dateStr){
-  const digits=dateStr.replace(/\\D/g,"").split("").map(Number);
+  const digits=dateStr.replace(/\D/g,"").split("").map(Number);
   let n=digits.reduce((a,b)=>a+b,0);
   while(n>9 && ![11,22,33].includes(n)){
     n=String(n).split("").reduce((a,b)=>a+Number(b),0);
@@ -143,7 +144,7 @@ $("#order").addEventListener("click",()=>{
 $("#again").addEventListener("click",()=>show("#top"));
 
 function wrapText(ctx,text,x,y,maxWidth,lineHeight){
-  const paragraphs=String(text).split("\\n");
+  const paragraphs=String(text).split("\n");
   let yy=y;
   for(const p of paragraphs){
     if(!p){yy+=lineHeight;continue}
@@ -173,7 +174,7 @@ $("#save").addEventListener("click",async()=>{
     ctx.textAlign="center";ctx.fillStyle="#fff3cf";ctx.font="900 46px sans-serif";ctx.fillText("🏮 数秘酒場 🏮",540,62);
     ctx.font="900 58px sans-serif";ctx.fillText("あんた、何のアテなん。",540,122);
     ctx.fillStyle="#8b201b";ctx.font="900 34px sans-serif";ctx.fillText($("#num").textContent,540,196);
-    ctx.fillStyle="#3d1a13";ctx.font="900 58px sans-serif";ctx.fillText(current.title.replace(/^[^\\s]+\\s/,""),540,260);
+    ctx.fillStyle="#3d1a13";ctx.font="900 58px sans-serif";ctx.fillText(current.title.replace(/^[^\s]+\s/,""),540,260);
     const box={x:115,y:295,w:850,h:430};
     const scale=Math.min(box.w/food.width,box.h/food.height);
     const w=food.width*scale,h=food.height*scale;
