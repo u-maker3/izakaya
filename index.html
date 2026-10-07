@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#6f1717">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>数秘酒場｜あんた、何のアテなん。</title>
+<style>
+:root{--red:#8b201b;--deep:#34120d;--gold:#d5a43a;--cream:#fff6df;--ink:#3c281f;--sub:#786456}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif}
+body{color:var(--ink);background:radial-gradient(circle at 50% 0,rgba(255,185,68,.22),transparent 30%),linear-gradient(#4b170f,#210b08)}
+button,input{font:inherit}.app{width:min(100%,540px);min-height:100vh;margin:auto;overflow:hidden}
+.screen{display:none;min-height:100vh;padding:calc(18px + env(safe-area-inset-top)) 16px calc(24px + env(safe-area-inset-bottom))}
+.screen.active{display:flex;flex-direction:column}
+#top{justify-content:center}.card{background:linear-gradient(#fffaf0,#fff3d8);border:3px solid var(--gold);border-radius:30px;padding:22px 18px;text-align:center;box-shadow:0 20px 60px #0007}
+.lantern{font-size:52px}.shop{font-size:16px;font-weight:900;letter-spacing:.18em;color:var(--red);margin-top:5px}
+h1{font-size:31px;line-height:1.2;margin:8px 0;color:#451710}.lead{font-size:14px;line-height:1.7;color:var(--sub)}
+.master{width:68%;max-width:280px;margin:4px auto 8px;display:block;filter:drop-shadow(0 8px 7px #0002)}
+.form{background:#fff;border:1px solid #ead9b9;border-radius:20px;padding:15px;margin-top:8px;text-align:left}
+label{font-size:13px;font-weight:900}input[type=date]{width:100%;margin-top:7px;border:2px solid #dec18d;border-radius:14px;padding:13px;background:#fffdf7;font-size:17px}
+.btn{width:100%;border:0;border-radius:16px;padding:15px;margin-top:12px;font-weight:900;font-size:17px}
+.primary{color:#fff8df;background:linear-gradient(#aa3028,#741711);box-shadow:0 6px 0 #4a0e0b}.primary:active{transform:translateY(3px);box-shadow:0 3px 0 #4a0e0b}
+.note{font-size:11px;line-height:1.6;color:#927d6b;margin:13px 0 0}
+#loading{justify-content:center;align-items:center;text-align:center;color:#fff7e6}.swing{font-size:72px;animation:swing 1.2s ease-in-out infinite;transform-origin:50% 0}
+@keyframes swing{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(8deg)}}.loadingTitle{font-size:24px;font-weight:900;margin-top:18px}.loadingText{min-height:48px;line-height:1.8;color:#ead5b9}
+#result{background:linear-gradient(#43140e,#210b08);justify-content:flex-start}.resultWrap{width:100%}
+.resultCard{background:#fff7e5;border:3px solid var(--gold);border-radius:28px;padding:18px;box-shadow:0 18px 50px #0006;text-align:center;position:relative;overflow:hidden}
+.resultCard:before{content:"🏮 数秘酒場 🏮";display:block;color:var(--red);font-weight:900;letter-spacing:.12em;margin-bottom:7px}
+.small{font-size:12px;color:#846d5d;font-weight:800}.num{font-size:14px;font-weight:900;color:#9b2b22;letter-spacing:.08em;margin:4px 0}
+.foodTitle{font-size:29px;line-height:1.2;font-weight:950;color:#40150f;margin:4px 0 10px}.food{width:100%;max-height:285px;object-fit:contain;border-radius:20px;display:block;margin:auto}
+.copy{text-align:left;background:#fff;border:1px solid #ead9bd;border-radius:18px;padding:15px;margin-top:12px;font-size:14px;line-height:1.85;white-space:pre-line}
+.keywords{margin-top:12px;padding:10px;border-top:1px dashed #d9bd8a;border-bottom:1px dashed #d9bd8a;font-size:13px;font-weight:900;line-height:1.8}
+.masterRow{display:flex;align-items:center;gap:9px;margin-top:13px;text-align:left}.masterMini{width:88px;flex:0 0 88px}.masterMini img{width:100%;display:block}
+.comment{background:#fff;border:2px solid #4b241b;border-radius:17px;padding:11px 12px;font-size:14px;font-weight:900;line-height:1.6;flex:1}
+.actions{display:grid;gap:9px;margin-top:13px}.secondary{background:#fff2d5;color:#612016;border:2px solid #d4a244}.saveStatus{font-size:12px;color:#ffe9c2;text-align:center;min-height:20px;margin-top:7px}
+.disclaimer{font-size:10px;line-height:1.6;color:#947e6d;margin-top:12px}
+</style>
+</head>
+<body>
+<div class="app">
+<section id="top" class="screen active">
+  <div class="card">
+    <div class="lantern">🏮</div>
+    <div class="shop">数秘酒場</div>
+    <h1>あんた、何のアテなん。</h1>
+    <p class="lead">生年月日ひとつで、<br>本日のあんたを一品お出しします。</p>
+    <img class="master" src="./umeko_master.PNG" alt="店主うめこ">
+    <div class="form">
+      <label for="birthday">生年月日</label>
+      <input id="birthday" type="date">
+      <button id="order" class="btn primary">🍺 注文する</button>
+    </div>
+    <p class="note">入力した生年月日は端末内の計算だけに使います。外部送信はしません。</p>
+  </div>
+</section>
+
+<section id="loading" class="screen">
+  <div class="swing">🏮</div>
+  <div class="loadingTitle">店主、仕込み中。</div>
+  <div id="loadingText" class="loadingText">あんたの数字、見てます。</div>
+</section>
+
+<section id="result" class="screen">
+  <div class="resultWrap">
+    <div id="capture" class="resultCard">
+      <div class="small">本日のあんた</div>
+      <div id="num" class="num"></div>
+      <div id="foodTitle" class="foodTitle"></div>
+      <img id="food" class="food" alt="">
+      <div id="copy" class="copy"></div>
+      <div id="keywords" class="keywords"></div>
+      <div class="masterRow">
+        <div class="masterMini"><img src="./umeko_master.PNG" alt="店主うめこ"></div>
+        <div><div class="small">🏮 店主うめこより</div><div id="comment" class="comment"></div></div>
+      </div>
+      <div class="disclaimer">※数秘をモチーフにしたエンタメ診断です。</div>
+    </div>
+    <div class="actions">
+      <button id="save" class="btn primary">📸 本日のあんたを保存</button>
+      <button id="again" class="btn secondary">🍺 もう一杯…ちゃう、もう一回</button>
+    </div>
+    <div id="saveStatus" class="saveStatus"></div>
+  </div>
+</section>
+</div>
+
+<script>
+const MENU={
+1:{title:"🔥 炙りしめ鯖",img:"num1_saba.PNG",copy:"目の前で炙られてナンボ。\\n黙って出てくる気はない。\\n\\n自分で決めたい。自分で動きたい。\\n人の後ろについて行くより「ほな私から行くわ」。",keys:"先陣切る｜決断早い｜自立心｜負けず嫌い",comment:"登場するたび火ぃ使うな。目立つねん。"},
+2:{title:"🫛 枝豆",img:"num2_edamame.PNG",copy:"主役ちゃう。\\nせやのに、おらんかったら寂しい。\\n\\n誰の横にも自然におれるし、場の空気もよう見てる。\\n「私が！」とは来やんけど、人と人の間をええ感じにつなぐ。",keys:"協調｜気配り｜サポート｜繊細",comment:"人の殻まで剥かんでええ。"},
+3:{title:"🍟 フライドポテト",img:"num3_potato.PNG",copy:"来た瞬間、みんな手ぇ出す。\\n\\n明るい。楽しい。ノリがええ。\\n本人が楽しんでたら、なぜか周りまで楽しくなる。\\n\\nただし興味が次々移るので、さっき何の話してた？",keys:"表現｜楽しさ｜好奇心｜社交性",comment:"喋ってる間に冷めとるぞ。"},
+4:{title:"🥚 だし巻き玉子",img:"num4_dashimaki.PNG",copy:"派手な炎も舟もいらん。\\nちゃんと巻く。ちゃんと切る。ちゃんと美味い。\\n\\nコツコツ積み上げて、気づけば「結局ここが一番信用できる」になる人。",keys:"堅実｜継続｜安定｜仕組み化",comment:"宴会中まで段取り組むな。"},
+5:{title:"🌶️ ピリ辛手羽先",img:"num5_tebasaki.PNG",copy:"刺激ないん？\\n\\n新しい店。知らん味。知らん人。\\nおもろそうなら、とりあえず行ってみる。\\n自由を奪われると急激に元気なくなる。",keys:"自由｜変化｜行動｜冒険",comment:"二軒目探すん早すぎる。"},
+6:{title:"🍢 おでん盛り",img:"num6_oden.PNG",copy:"大根どう？ 卵食べる？ こんにゃく取ったろか？\\n\\n人の世話してる間に、自分の大根が冷めてる。\\n愛情深くて責任感も強い。頼られたら、つい放っとかれへん。",keys:"愛情｜調和｜責任｜世話焼き",comment:"自分の皿も見ろ。"},
+7:{title:"🦑 イカの塩辛",img:"num7_shiokara.PNG",copy:"万人受け？\\n別にせんでええ。\\n\\n分かる人が分かったら、それでええ。\\nひとりでじっくり考える時間が必要で、表面だけの話では腹いっぱいにならん。",keys:"探究｜分析｜専門性｜一人時間",comment:"クセ強いけど、そこが売りや。"},
+8:{title:"🥩 牛ステーキ",img:"num8_steak.PNG",copy:"枝豆と同じ顔して出てくる気、ゼロ。\\n\\n結果出したい。ちゃんと稼ぎたい。やるならデカくしたい。\\n現実世界で成果に変える力が強い。",keys:"成果｜実行力｜豊かさ｜統率",comment:"皿からもう圧出てんねん。"},
+9:{title:"🍲 寄せ鍋",img:"num9_nabe.PNG",copy:"肉も魚も野菜も来い。\\n\\n「それぞれ違うやん」で終わらず、まあ一回ここ入ってみ。\\n視野が広く、人の事情も受け止められる。ただし何でも抱え込みやすい。",keys:"包容｜完成｜共感｜広い視点",comment:"知らん人まで鍋に入れんな。"},
+11:{title:"✨ 炙り白子ポン酢",img:"num11_shirako.PNG",copy:"なんで分かったん？\\n知らん。なんとなく。\\n\\n感覚が細かい。直感が鋭い。\\n他の人がスルーする何かを拾う。そのぶん刺激も拾いすぎる。",keys:"直感｜感受性｜ひらめき｜独自感覚",comment:"ポン酢の波動まで感じんでええ。"},
+22:{title:"🛶 豪華舟盛り",img:"num22_funamori.PNG",copy:"刺身頼んだだけやと思ってた。\\n船で来た。\\n\\n考えるスケールが大きい。しかも夢見て終わらず、現実に組み立てようとする。\\n気づけば普通の企画が一大事業。",keys:"構築｜実現｜大規模｜長期視点",comment:"誰がこの船片付けんねん。"},
+33:{title:"🍗 てんこ盛り唐揚げ",img:"num33_karaage.PNG",copy:"「みんな食べや〜！」\\n\\n自分の分より、人の分。\\n愛情の配布量がおかしい。頼まれてなくても気になる。困ってたら放っとけん。\\nそして最後、自分の唐揚げがない。",keys:"無条件の愛｜奉仕｜包容｜独特の感性",comment:"まず2個、自分の皿に取っとけ。"}
+};
+
+const $=s=>document.querySelector(s);
+function show(id){document.querySelectorAll(".screen").forEach(x=>x.classList.remove("active"));$(id).classList.add("active");window.scrollTo(0,0)}
+function lifePath(dateStr){
+  const digits=dateStr.replace(/\\D/g,"").split("").map(Number);
+  let n=digits.reduce((a,b)=>a+b,0);
+  while(n>9 && ![11,22,33].includes(n)){
+    n=String(n).split("").reduce((a,b)=>a+Number(b),0);
+  }
+  return n;
+}
+let current=null;
+
+$("#order").addEventListener("click",()=>{
+  const d=$("#birthday").value;
+  if(!d){alert("生年月日、置いてって🤣");return}
+  const n=lifePath(d);
+  current=MENU[n];
+  if(!current){alert("計算できへんかった。もう一回入れてみてな。");return}
+  show("#loading");
+  const msgs=["あんたの数字、見てます。","……クセ強そうやな。","店主、盛り付けてます。","お待たせしました。本日のあんたです。"];
+  let i=0; $("#loadingText").textContent=msgs[0];
+  const timer=setInterval(()=>{i++;if(i<msgs.length)$("#loadingText").textContent=msgs[i]},550);
+  setTimeout(()=>{
+    clearInterval(timer);
+    $("#num").textContent="NUMEROLOGY "+n;
+    $("#foodTitle").textContent=current.title;
+    $("#food").src="./"+current.img;
+    $("#food").alt=current.title;
+    $("#copy").textContent=current.copy;
+    $("#keywords").textContent=current.keys;
+    $("#comment").textContent="「"+current.comment+"」";
+    $("#saveStatus").textContent="";
+    show("#result");
+  },2200);
+});
+
+$("#again").addEventListener("click",()=>show("#top"));
+
+function wrapText(ctx,text,x,y,maxWidth,lineHeight){
+  const paragraphs=String(text).split("\\n");
+  let yy=y;
+  for(const p of paragraphs){
+    if(!p){yy+=lineHeight;continue}
+    let line="";
+    for(const ch of p){
+      const test=line+ch;
+      if(ctx.measureText(test).width>maxWidth && line){
+        ctx.fillText(line,x,yy); yy+=lineHeight; line=ch;
+      }else line=test;
+    }
+    if(line){ctx.fillText(line,x,yy);yy+=lineHeight}
+  }
+  return yy;
+}
+function loadImage(src){return new Promise((res,rej)=>{const im=new Image();im.onload=()=>res(im);im.onerror=rej;im.src=src})}
+
+$("#save").addEventListener("click",async()=>{
+  if(!current)return;
+  $("#saveStatus").textContent="保存画像つくってます…";
+  try{
+    const food=await loadImage("./"+current.img);
+    const master=await loadImage("./umeko_master.PNG");
+    const c=document.createElement("canvas"); c.width=1080;c.height=1350;
+    const ctx=c.getContext("2d");
+    ctx.fillStyle="#fff5df";ctx.fillRect(0,0,c.width,c.height);
+    ctx.fillStyle="#7d1d18";ctx.fillRect(0,0,1080,145);
+    ctx.textAlign="center";ctx.fillStyle="#fff3cf";ctx.font="900 46px sans-serif";ctx.fillText("🏮 数秘酒場 🏮",540,62);
+    ctx.font="900 58px sans-serif";ctx.fillText("あんた、何のアテなん。",540,122);
+    ctx.fillStyle="#8b201b";ctx.font="900 34px sans-serif";ctx.fillText($("#num").textContent,540,196);
+    ctx.fillStyle="#3d1a13";ctx.font="900 58px sans-serif";ctx.fillText(current.title.replace(/^[^\\s]+\\s/,""),540,260);
+    const box={x:115,y:295,w:850,h:430};
+    const scale=Math.min(box.w/food.width,box.h/food.height);
+    const w=food.width*scale,h=food.height*scale;
+    ctx.drawImage(food,box.x+(box.w-w)/2,box.y+(box.h-h)/2,w,h);
+    ctx.textAlign="left";ctx.fillStyle="#3b2a22";ctx.font="700 29px sans-serif";
+    let y=770;y=wrapText(ctx,current.copy,90,y,900,43);
+    y+=12;ctx.fillStyle="#8b201b";ctx.font="900 27px sans-serif";y=wrapText(ctx,current.keys,90,y,900,40);
+    const mw=190,mh=190*master.height/master.width;ctx.drawImage(master,75,1120-mh/2,mw,mh);
+    ctx.fillStyle="#fff";ctx.strokeStyle="#4a2118";ctx.lineWidth=4;
+    const bx=285,by=1080,bw=720,bh=150,r=28;
+    ctx.beginPath();ctx.roundRect(bx,by,bw,bh,r);ctx.fill();ctx.stroke();
+    ctx.fillStyle="#7d1d18";ctx.font="900 24px sans-serif";ctx.fillText("🏮 店主うめこより",320,1120);
+    ctx.fillStyle="#33231c";ctx.font="900 29px sans-serif";wrapText(ctx,"「"+current.comment+"」",320,1165,640,39);
+    ctx.textAlign="center";ctx.fillStyle="#8d7867";ctx.font="500 20px sans-serif";ctx.fillText("※数秘をモチーフにしたエンタメ診断です。",540,1315);
+    c.toBlob(blob=>{
+      const url=URL.createObjectURL(blob);
+      const a=document.createElement("a");a.href=url;a.download="数秘酒場_本日のあんた.PNG";document.body.appendChild(a);a.click();a.remove();
+      setTimeout(()=>URL.revokeObjectURL(url),1500);
+      $("#saveStatus").textContent="できたで🍺 長押し保存でもOK！";
+    },"image/png");
+  }catch(e){
+    console.error(e);
+    $("#saveStatus").textContent="画像を読み込めへんかった💦 ファイル名を確認してな。";
+  }
+});
+</script>
+</body>
+</html>
