@@ -8,7 +8,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>数秘酒場｜あんた、何のアテなん。</title>
-<!-- build: 20261008-03 -->
+<!-- build: 20261008-04 -->
 <style>
 :root{--red:#8b201b;--deep:#34120d;--gold:#d5a43a;--cream:#fff6df;--ink:#3c281f;--sub:#786456}
 *{box-sizing:border-box}
@@ -48,7 +48,7 @@ label{font-size:13px;font-weight:900}input[type=date]{width:100%;margin-top:7px;
     <div class="lantern">🏮</div>
     <div class="shop">数秘酒場</div>
     <h1>あんた、何のアテなん。</h1>
-    <p class="lead">生年月日ひとつで、<br>本日のあんたを一品お出しします。</p>
+    <p class="lead">生年月日ひとつで、<br>あんたの一品、お出しします。</p>
     <img class="master" src="./umeko_master.PNG" alt="店主うめこ">
     <div class="form">
       <label for="birthday">生年月日</label>
@@ -68,7 +68,7 @@ label{font-size:13px;font-weight:900}input[type=date]{width:100%;margin-top:7px;
 <section id="result" class="screen">
   <div class="resultWrap">
     <div id="capture" class="resultCard">
-      <div class="small">本日のあんた</div>
+      <div class="small">あんたの一品</div>
       <div id="num" class="num"></div>
       <div id="foodTitle" class="foodTitle"></div>
       <img id="food" class="food" alt="">
@@ -81,7 +81,7 @@ label{font-size:13px;font-weight:900}input[type=date]{width:100%;margin-top:7px;
       <div class="disclaimer">※数秘をモチーフにしたエンタメ診断です。</div>
     </div>
     <div class="actions">
-      <button id="save" class="btn primary">📸 本日のあんたを保存</button>
+      <button id="save" class="btn primary">📸 あんたの一品を保存</button>
       <button id="again" class="btn secondary">🍺 もう一杯…ちゃう、もう一回</button>
     </div>
     <div id="saveStatus" class="saveStatus"></div>
@@ -124,7 +124,7 @@ $("#order").addEventListener("click",()=>{
   current=MENU[n];
   if(!current){alert("計算できへんかった。もう一回入れてみてな。");return}
   show("#loading");
-  const msgs=["あんたの数字、見てます。","……クセ強そうやな。","店主、盛り付けてます。","お待たせしました。本日のあんたです。"];
+  const msgs=["あんたの数字、見てます。","……クセ強そうやな。","店主、盛り付けてます。","お待たせしました。あんたの一品です。"];
   let i=0; $("#loadingText").textContent=msgs[0];
   const timer=setInterval(()=>{i++;if(i<msgs.length)$("#loadingText").textContent=msgs[i]},550);
   setTimeout(()=>{
@@ -167,37 +167,41 @@ $("#save").addEventListener("click",async()=>{
   try{
     const food=await loadImage("./"+current.img);
     const master=await loadImage("./umeko_master.PNG");
-    const c=document.createElement("canvas"); c.width=1080;c.height=1350;
+    const c=document.createElement("canvas");c.width=1080;c.height=1350;
     const ctx=c.getContext("2d");
-    ctx.fillStyle="#fff5df";ctx.fillRect(0,0,c.width,c.height);
+    ctx.fillStyle="#fff5df";ctx.fillRect(0,0,1080,1350);
     ctx.fillStyle="#7d1d18";ctx.fillRect(0,0,1080,145);
-    ctx.textAlign="center";ctx.fillStyle="#fff3cf";ctx.font="900 46px sans-serif";ctx.fillText("🏮 数秘酒場 🏮",540,62);
+    ctx.textAlign="center";ctx.fillStyle="#fff3cf";ctx.font="900 46px sans-serif";ctx.fillText("数秘酒場",540,62);
     ctx.font="900 58px sans-serif";ctx.fillText("あんた、何のアテなん。",540,122);
     ctx.fillStyle="#8b201b";ctx.font="900 34px sans-serif";ctx.fillText($("#num").textContent,540,196);
     ctx.fillStyle="#3d1a13";ctx.font="900 58px sans-serif";ctx.fillText(current.title.replace(/^[^\s]+\s/,""),540,260);
-    const box={x:115,y:295,w:850,h:430};
-    const scale=Math.min(box.w/food.width,box.h/food.height);
+    const box={x:115,y:295,w:850,h:430},scale=Math.min(box.w/food.width,box.h/food.height);
     const w=food.width*scale,h=food.height*scale;
     ctx.drawImage(food,box.x+(box.w-w)/2,box.y+(box.h-h)/2,w,h);
     ctx.textAlign="left";ctx.fillStyle="#3b2a22";ctx.font="700 29px sans-serif";
     let y=770;y=wrapText(ctx,current.copy,90,y,900,43);
-    y+=12;ctx.fillStyle="#8b201b";ctx.font="900 27px sans-serif";y=wrapText(ctx,current.keys,90,y,900,40);
+    y+=12;ctx.fillStyle="#8b201b";ctx.font="900 27px sans-serif";wrapText(ctx,current.keys,90,y,900,40);
     const mw=190,mh=190*master.height/master.width;ctx.drawImage(master,75,1120-mh/2,mw,mh);
-    ctx.fillStyle="#fff";ctx.strokeStyle="#4a2118";ctx.lineWidth=4;
-    const bx=285,by=1080,bw=720,bh=150,r=28;
-    ctx.beginPath();ctx.roundRect(bx,by,bw,bh,r);ctx.fill();ctx.stroke();
-    ctx.fillStyle="#7d1d18";ctx.font="900 24px sans-serif";ctx.fillText("🏮 店主うめこより",320,1120);
+    ctx.fillStyle="#fff";ctx.strokeStyle="#4a2118";ctx.lineWidth=4;ctx.beginPath();
+    if(ctx.roundRect){ctx.roundRect(285,1080,720,150,28)}else{ctx.rect(285,1080,720,150)}
+    ctx.fill();ctx.stroke();
+    ctx.fillStyle="#7d1d18";ctx.font="900 24px sans-serif";ctx.fillText("店主うめこより",320,1120);
     ctx.fillStyle="#33231c";ctx.font="900 29px sans-serif";wrapText(ctx,"「"+current.comment+"」",320,1165,640,39);
     ctx.textAlign="center";ctx.fillStyle="#8d7867";ctx.font="500 20px sans-serif";ctx.fillText("※数秘をモチーフにしたエンタメ診断です。",540,1315);
-    c.toBlob(blob=>{
-      const url=URL.createObjectURL(blob);
-      const a=document.createElement("a");a.href=url;a.download="数秘酒場_本日のあんた.PNG";document.body.appendChild(a);a.click();a.remove();
-      setTimeout(()=>URL.revokeObjectURL(url),1500);
-      $("#saveStatus").textContent="できたで🍺 長押し保存でもOK！";
-    },"image/png");
+    const blob=await new Promise((resolve,reject)=>c.toBlob(b=>b?resolve(b):reject(new Error("blob")),"image/png"));
+    const file=new File([blob],"数秘酒場_あんたの一品.png",{type:"image/png"});
+    if(navigator.share && (!navigator.canShare || navigator.canShare({files:[file]}))){
+      await navigator.share({files:[file],title:"数秘酒場｜あんた、何のアテなん。"});
+      $("#saveStatus").textContent="共有画面から「画像を保存」を選んでな🍺";
+    }else{
+      const url=URL.createObjectURL(blob),win=window.open(url,"_blank");
+      if(!win){const a=document.createElement("a");a.href=url;a.download="数秘酒場_あんたの一品.png";document.body.appendChild(a);a.click();a.remove()}
+      $("#saveStatus").textContent="画像が開いたら長押しで保存してな🍺";
+      setTimeout(()=>URL.revokeObjectURL(url),60000);
+    }
   }catch(e){
-    console.error(e);
-    $("#saveStatus").textContent="画像を読み込めへんかった💦 ファイル名を確認してな。";
+    if(e&&e.name==="AbortError"){$("#saveStatus").textContent="保存をやめました。";return}
+    console.error(e);$("#saveStatus").textContent="保存画像を作れへんかった💦";
   }
 });
 </script>
